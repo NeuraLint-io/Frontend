@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-8 text-center">
       <Image
-        src="/logo.png"
+        src="/logo_icon.png"
         alt="NeuraLint Logo"
         width={64}
         height={64}
