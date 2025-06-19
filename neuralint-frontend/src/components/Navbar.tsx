@@ -1,21 +1,65 @@
 'use client';
 
-import { ModeToggle } from './ModeToggle';
-import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
-export function Navbar() {
+export default function Navbar() {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data?.user || null);
+    };
+    getUser();
+
+    // optional: auto-update on login/logout
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/'; // optional redirect after logout
+  };
+
   return (
-    <header className="flex items-center justify-between py-4 px-6 border-b bg-background">
-      <Link href="/">
-        <div className="flex items-center space-x-2">
-          <Image src="/logo_icon.png" alt="NeuraLint Logo" width={32} height={32} />
-          <span className="text-xl font-bold font-sans tracking-tight">
-            NeuraLint
-          </span>
-        </div>
+    <nav className="flex justify-between items-center px-6 py-4 border-b">
+      <Link href="/" className="text-xl font-bold">
+        NeuraLint
       </Link>
-      <ModeToggle />
-    </header>
+
+      {user ? (
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard">
+            <Button variant="ghost">Dashboard</Button>
+          </Link>
+
+          <Avatar className="h-8 w-8">
+            <AvatarFallback>
+              {user.email[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+
+          <Button variant="outline" size="sm" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
+      ) : (
+        <Link href="/">
+          <Button variant="default" size="sm">
+            Sign In
+          </Button>
+        </Link>
+      )}
+    </nav>
   );
 }
