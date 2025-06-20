@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export default function Navbar() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<import('@supabase/supabase-js').User | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
@@ -45,7 +45,7 @@ export default function Navbar() {
 
           <Avatar className="h-8 w-8">
             <AvatarFallback>
-              {user.email[0].toUpperCase()}
+              {(user.email?.[0] || '').toUpperCase()}
             </AvatarFallback>
           </Avatar>
 
