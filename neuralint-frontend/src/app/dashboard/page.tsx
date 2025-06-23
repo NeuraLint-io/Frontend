@@ -1,22 +1,15 @@
-'use client';
+// app/dashboard/page.tsx
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+export default async function Dashboard() {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-export default function DashboardPage() {
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  if (!session) redirect('/login');
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data?.user && data.user.email) setUser({ email: data.user.email });
-    };
-    getUser();
-  }, []);
-
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Welcome {user?.email || 'loading...'}</h1>
-    </div>
-  );
+  return <div className="p-8">Welcome, {session.user.email}!</div>;
 }
