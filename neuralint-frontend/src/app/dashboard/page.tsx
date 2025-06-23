@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ email: string } | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (data?.user) setUser(data.user);
+      const { data } = await supabase.auth.getUser();
+      if (data?.user && data.user.email) setUser({ email: data.user.email });
     };
     getUser();
   }, []);
