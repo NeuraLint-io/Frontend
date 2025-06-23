@@ -1,40 +1,84 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Github } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import Link from 'next/link';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-8 text-center">
-      <Image
-        src="/logo_icon.png"
-        alt="NeuraLint Logo"
-        width={64}
-        height={64}
-        className="mb-6"
-      />
-      <h1 className="text-4xl font-bold font-sans mb-4">NeuraLint</h1>
-      <p className="text-muted-foreground text-lg max-w-xl mb-8 font-sans">
-        Explain, secure, and summarize your codebase with AI. NeuraLint brings intelligence to your workflow — powered by GPT, Claude, and Gemini.
-      </p>
+    <div className="min-h-screen flex flex-col justify-between">
+      <main className="max-w-6xl mx-auto px-6 py-24 flex flex-col gap-24 items-center text-center">
+        {/* HERO */}
+        <div className="space-y-6">
+          <Image src="/logo.png" alt="NeuraLint logo" width={72} height={72} className="mx-auto" />
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
+            Supercharge Your Codebase with AI
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+            NeuraLint explains, secures, and summarizes your code using your favorite AI models — GPT, Claude, Gemini. Built for developers, by developers.
+          </p>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <Button asChild size="lg">
+              <Link href="/auth">Sign in with GitHub</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="https://github.com/your-org/neuralint" target="_blank">GitHub</Link>
+            </Button>
+          </div>
+        </div>
 
-      <Link href="/dashboard">
-        <Button size="lg" className="flex items-center gap-2">
-          <Github className="w-5 h-5" />
-          Sign in with GitHub
-        </Button>
-      </Link>
+        {/* FEATURES */}
+        <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          {[
+            {
+              title: 'Multi-Model Support',
+              description: 'Choose between GPT-4, Claude 3, or Gemini Pro to analyze your code.',
+            },
+            {
+              title: 'Secure by Design',
+              description: 'All analysis runs client-side or with encrypted transmission. Your code stays safe.',
+            },
+            {
+              title: 'Code Intelligence',
+              description: 'Receive summaries, risk reports, and code explanations instantly.',
+            },
+            {
+              title: 'Workflow Integrations',
+              description: 'Use it inside VS Code, CI pipelines, or your browser.',
+            },
+            {
+              title: 'Customizable Rules',
+              description: 'Bring your own linting logic and extend it with prompts.',
+            },
+            {
+              title: 'Open Source Core',
+              description: 'Built transparently. Contribute or self-host.',
+            },
+          ].map(({ title, description }) => (
+            <Card key={title} className="text-left">
+              <CardHeader className="text-lg font-semibold">{title}</CardHeader>
+              <CardContent className="text-muted-foreground">{description}</CardContent>
+            </Card>
+          ))}
+        </section>
 
-      <div className="mt-10 text-sm text-muted-foreground space-x-4">
-        <a href="https://github.com/YOUR_USERNAME/neuralint-frontend" target="_blank" rel="noopener noreferrer" className="hover:underline">
-          GitHub
-        </a>
-        <a href="https://neuralint-docs.vercel.app" className="hover:underline">
-          Docs
-        </a>
-      </div>
+        {/* CTA */}
+        <section className="text-center space-y-4">
+          <h2 className="text-2xl font-bold">Ready to level up your repo?</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Sign in with GitHub and get your first repo analysis in under a minute.
+          </p>
+          <Button asChild size="lg">
+            <Link href="/auth">Get Started</Link>
+          </Button>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="text-center text-sm text-muted-foreground pb-6">
+        © {new Date().getFullYear()} NeuraLint. Built with ❤️ by Devs.
+      </footer>
     </div>
   );
 }
