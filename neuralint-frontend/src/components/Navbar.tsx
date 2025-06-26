@@ -35,7 +35,7 @@ export default function Navbar() {
       {user ? (
         <div className="flex items-center gap-3">
           <Link href="/dashboard">
-            <Button variant="ghost">Dash board</Button>
+            <Button variant="ghost">Dashboard</Button>
           </Link>
           <Avatar className="h-8 w-8">
             <AvatarFallback>{user.email?.[0]?.toUpperCase() ?? ''}</AvatarFallback>
