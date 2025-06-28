@@ -1,22 +1,9 @@
-// /app/login/page.tsx
-'use client'
-
-import { supabase } from '@/lib/supabase'
-import { Button } from '@/components/ui/button'
+import SupabaseLogin from '@/components/SupabaseLogin';
 
 export default function LoginPage() {
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: 'http://localhost:3000/dashboard', // adjust for production
-      },
-    })
-  }
-
   return (
-    <div className="flex justify-center mt-32">
-      <Button onClick={handleLogin}>Sign in with GitHub</Button>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <SupabaseLogin />
     </div>
-  )
+  );
 }

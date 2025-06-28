@@ -77,7 +77,7 @@ export default function HomePage() {
 
       {/* FOOTER */}
       <footer className="text-center text-sm text-muted-foreground pb-6">
-        © {new Date().getFullYear()} NeuraLint. Built with ❤️ by Devs.
+        © {new Date().getFullYear()} NeuraLint. Built with ❤️ by Divs.
       </footer>
     </div>
   );

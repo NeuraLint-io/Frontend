@@ -1,26 +1,25 @@
 'use client';
 
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Github } from 'lucide-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function SupabaseLogin() {
-  const router = useRouter();
+  const supabase = createClientComponentClient();
 
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+  const handleSignIn = async () => {
+    await supabase.auth.signInWithOAuth({
       provider: 'github',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
     });
-
-    if (error) console.error('Login error:', error);
-    else router.push('/dashboard');
   };
 
   return (
-    <Button onClick={handleLogin} className="gap-2" size="lg">
-      <Github className="w-4 h-4" />
+    <button
+      onClick={handleSignIn}
+      className="px-4 py-2 rounded bg-white text-black font-semibold hover:bg-gray-200"
+    >
       Sign in with GitHub
-    </Button>
+    </button>
   );
 }
